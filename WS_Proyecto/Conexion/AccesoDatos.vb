@@ -34,22 +34,22 @@ Public Class AccesoDatos
 
     Public Shared Function ExecuteNonQuery(ByVal strStoredProcedure As String, _
                                           ParamArray ArrayParametros As Object()) As Integer
-        'Dim intRespuesta As Integer
-        'If ArrayParametros.Length Mod 2 = 0 Then ' check si vienen los datos pares
-        '    Using con As New MySqlConnection(strConexion)
-        '        Using cmd As New MySqlCommand(strStoredProcedure, con)
-        '            cmd.CommandType = CommandType.StoredProcedure
-        '            For i As Integer = 0 To ArrayParametros.Length
-        '                cmd.Parameters.AddWithValue(ArrayParametros(i).ToString(), ArrayParametros(i + 1))
-        '                i = i + 1
-        '            Next
-        '            intRespuesta = cmd.ExecuteNonQuery()
-        '        End Using
-        '    End Using
-        '    Return intRespuesta
-        'Else
-        '    Return -1 ' Da porque no se mandaron los parametros como son 
-        'End If
+        Dim intRespuesta As Integer
+        If ArrayParametros.Length Mod 2 = 0 Then ' check si vienen los datos pares
+            Using con As New SqlConnection(strConexion)
+                Using cmd As New SqlCommand(strStoredProcedure, con)
+                    cmd.CommandType = CommandType.StoredProcedure
+                    For i As Integer = 0 To ArrayParametros.Length - 1
+                        cmd.Parameters.AddWithValue(ArrayParametros(i).ToString(), ArrayParametros(i + 1))
+                        i = i + 1
+                    Next
+                    intRespuesta = cmd.ExecuteNonQuery()
+                End Using
+            End Using
+            Return intRespuesta
+        Else
+            Return -1 ' Da porque no se mandaron los parametros como son 
+        End If
         Return Nothing
     End Function
 

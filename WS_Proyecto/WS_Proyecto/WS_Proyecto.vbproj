@@ -89,6 +89,7 @@
   <ItemGroup>
     <Content Include="Servicios\PruebaWS.asmx" />
     <Content Include="Web.config" />
+    <Content Include="WS_Producto.asmx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -112,6 +113,10 @@
     </Compile>
     <Compile Include="Servicios\PruebaWS.asmx.vb">
       <DependentUpon>PruebaWS.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WS_Producto.asmx.vb">
+      <DependentUpon>WS_Producto.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>

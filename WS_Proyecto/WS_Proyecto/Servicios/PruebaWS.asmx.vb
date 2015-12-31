@@ -20,4 +20,13 @@ Public Class PruebaWS
         Return "Hello World"
     End Function
 
+    <WebMethod()> _
+    Public Function probandoCommit() As String
+
+        Dim ds As DataSet = New DataSet()
+        ds = Conexion.AccesoDatos.ExecuteDataSet("Prueba",
+                                            "@id", "1")
+        Return "Hello World2"
+    End Function
+
 End Class

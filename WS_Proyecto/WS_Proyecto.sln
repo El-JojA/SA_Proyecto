@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BD Scripts", "BD Scripts", "{94373906-85C7-4780-AB87-E262B8359818}"
 	ProjectSection(SolutionItems) = preProject
 		BD scripts\Archivo Vacio.txt = BD scripts\Archivo Vacio.txt
+		BD scripts\ER_Farmacia_SQLServerv2.sql = BD scripts\ER_Farmacia_SQLServerv2.sql
 	EndProjectSection
 EndProject
 Global

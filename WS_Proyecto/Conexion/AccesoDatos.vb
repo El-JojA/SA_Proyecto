@@ -6,11 +6,14 @@ Imports Microsoft.SqlServer.Server
 
 Public Class AccesoDatos
     Shared strConexion As String = "Server=localhost;Database=SA_Proyecto;Trusted_Connection=Yes;"
+    'Shared strConexion As String = "Server=25.149.166.182;Database=SA_Proyecto;User Id=admin;Password=123;"
+
+
     Public Shared Function ExecuteDataSet(ByVal strStoredProcedure As String, _
                                           ParamArray ArrayParametros As Object()) As DataSet
         Dim dsRespuesta As DataSet = New DataSet
         Dim dtRespuesta As New DataTable()
-        
+
         If ArrayParametros.Length Mod 2 = 0 Then ' check si vienen los datos pares
             Using con As New SqlConnection(strConexion)
                 con.Open()

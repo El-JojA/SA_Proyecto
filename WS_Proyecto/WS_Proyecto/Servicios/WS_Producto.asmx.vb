@@ -14,8 +14,7 @@ Public Class WS_Producto
     Public Function HelloWorld() As String
 
         Dim ds As DataSet = New DataSet()
-        Dim intResultado As Integer = Insert("Suero de manzana", 10, "img\SueroManzana.jpg", 14.5)
-
+        ds = Buscar(Nothing, Nothing)
 
         Return "Hello World"
     End Function
@@ -58,7 +57,8 @@ Public Class WS_Producto
     Public Function Buscar(ByVal intId As Integer, ByVal strNombre As String) As DataSet
         Dim dsResultado As DataSet = New DataSet
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Producto_Buscar",
-                                                          "@id", intId, "@nombre", strNombre)
+                                                          "@id", IIf(intId = Nothing, DBNull.Value, intId),
+                                                          "@nombre", IIf(strNombre = Nothing, DBNull.Value, strNombre))
         Return dsResultado
     End Function
 

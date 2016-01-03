@@ -12,17 +12,13 @@ Public Class WS_Factura
 
     <WebMethod()> _
     Public Function insert(ByVal strFecha As String, ByVal intIdCliente As Integer,
-                           ByVal intIdFarmacia As Integer, ByVal intIdEmpleado As Integer) As Integer
+                           ByVal intIdFarmacia As Integer, ByVal intIdEmpleado As Integer) As DataSet
 
-        Dim rs As Integer
+        Dim rs As DataSet = New DataSet
 
-        rs = Conexion.AccesoDatos.ExecuteNonQuery("Factura_Insert", "@fecha_factura", Convert.ToDateTime(strFecha), "@id_cliente", intIdCliente,
+        rs = Conexion.AccesoDatos.ExecuteDataSet("Factura_Insert", "@fecha_factura", Convert.ToDateTime(strFecha), "@id_cliente", intIdCliente,
                                                  "@id_farmacia", intIdFarmacia, "@id_empleado", intIdEmpleado)
-        If rs = 0 Then
-            Return 1
-        End If
-
-        Return 0
+        Return rs
     End Function
 
     <WebMethod()> _
@@ -30,11 +26,8 @@ Public Class WS_Factura
         Dim rs As Integer
 
         rs = Conexion.AccesoDatos.ExecuteNonQuery("Factura_Delete", "@id", intIdFactura)
-        If rs = 0 Then
-            Return 1
-        End If
 
-        Return 0
+        Return rs
     End Function
 
 End Class

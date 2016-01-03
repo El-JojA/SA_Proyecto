@@ -15,11 +15,21 @@ Public Class WS_Producto
        Return "Hello World"
     End Function
 
-    Public Function Insert(ByVal intId As Integer, ByVal strNombre As String,
-                           ByVal intDisponible As Integer, ByVal strImg As String,
-                           ByVal dblPrecio As Double, ByVal intEstado As Integer) As Integer
+    Public Function Insert(ByVal strNombre As String, ByVal intDisponible As Integer,
+                           ByVal strImg As String, ByVal dblPrecio As Double) As Integer
         'llmar a stored procedure para que haga el insert
-        Return -1
+        Dim intResultado As Integer
+        'corre el stored procedure y regresa 0 si ingresó los datos correctamente.
+        'regresa -1 si no los ingresa correctamente (creo)
+        intResultado = Conexion.AccesoDatos.ExecuteNonQuery("Producto_Insert",
+                                            "@nombre", strNombre, "@disponible", intDisponible,
+                                            "@img", strImg, "@precio", dblPrecio)
+        If intResultado = 0 Then
+            Return 1
+        End If
+        Return 0
     End Function
+
+
 
 End Class

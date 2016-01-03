@@ -12,24 +12,51 @@ Public Class WS_Producto
 
     <WebMethod()> _
     Public Function HelloWorld() As String
-       Return "Hello World"
+
+        Dim ds As DataSet = New DataSet()
+        ds = Buscar(Nothing, Nothing)
+
+        Return "Hello World"
     End Function
 
     Public Function Insert(ByVal strNombre As String, ByVal intDisponible As Integer,
                            ByVal strImg As String, ByVal dblPrecio As Double) As Integer
-        'llmar a stored procedure para que haga el insert
         Dim intResultado As Integer
-        'corre el stored procedure y regresa 0 si ingresó los datos correctamente.
-        'regresa -1 si no los ingresa correctamente (creo)
+        'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
+        'regresa 0 si no pudo ingresar los datos
         intResultado = Conexion.AccesoDatos.ExecuteNonQuery("Producto_Insert",
                                             "@nombre", strNombre, "@disponible", intDisponible,
                                             "@img", strImg, "@precio", dblPrecio)
-        If intResultado = 0 Then
-            Return 1
-        End If
-        Return 0
+        Return intResultado
     End Function
 
+    Public Function Update(ByVal intId As Integer, ByVal strNombre As String,
+                           ByVal intDisponible As Integer, ByVal strImg As String,
+                           ByVal dblPrecio As Double, ByVal bytEstado As Byte) As Integer
+        Dim intResultado As Integer
+        'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
+        'regresa 0 si no pudo ingresar los datos
+        intResultado = Conexion.AccesoDatos.ExecuteNonQuery("Producto_Update",
+                                                            "@id", intId, "@nombre", strNombre,
+                                                            "@disponible", intDisponible, "@img", strImg,
+                                                            "@precio", dblPrecio, "@estado", bytEstado)
+        Return intResultado
+    End Function
 
+    Public Function Delete(ByVal intId As Integer) As Integer
+        Dim intResultado As Integer
+        'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
+        'regresa 0 si no pudo ingresar los datos
+        intResultado = Conexion.AccesoDatos.ExecuteNonQuery("Producto_Delete",
+                                                            "@id", intId)
+        Return intResultado
+    End Function
+
+    Public Function Buscar(ByVal intId As Integer, ByVal strNombre As String) As DataSet
+        Dim dsResultado As DataSet = New DataSet
+        dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Producto_Buscar",
+                                                          "@id", intId, "@nombre", strNombre)
+        Return dsResultado
+    End Function
 
 End Class

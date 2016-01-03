@@ -40,6 +40,7 @@ Public Class AccesoDatos
         Dim intRespuesta As Integer
         If ArrayParametros.Length Mod 2 = 0 Then ' check si vienen los datos pares
             Using con As New SqlConnection(strConexion)
+                con.Open()
                 Using cmd As New SqlCommand(strStoredProcedure, con)
                     cmd.CommandType = CommandType.StoredProcedure
                     For i As Integer = 0 To ArrayParametros.Length - 1

@@ -16,17 +16,20 @@ Public Class WS_Producto
         Dim ds As DataSet = New DataSet()
         Dim intResultado As Integer = Insert("Suero de manzana", 10, "img\SueroManzana.jpg", 14.5)
 
+
         Return "Hello World"
     End Function
 
     Public Function Insert(ByVal strNombre As String, ByVal intDisponible As Integer,
                            ByVal strImg As String, ByVal dblPrecio As Double) As Integer
-        Dim intResultado As Integer
+        Dim dsResultado As DataSet = New DataSet
+        Dim intResultado As Integer = -1
         'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
         'regresa 0 si no pudo ingresar los datos
-        intResultado = Conexion.AccesoDatos.ExecuteNonQuery("Producto_Insert",
+        dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Producto_Insert",
                                             "@nombre", strNombre, "@disponible", intDisponible,
                                             "@img", strImg, "@precio", dblPrecio)
+        intResultado = CInt(dsResultado.Tables(0).Rows(0).Item("id"))
         Return intResultado
     End Function
 

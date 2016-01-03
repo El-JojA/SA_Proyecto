@@ -14,7 +14,7 @@ Public Class WS_Producto
     Public Function HelloWorld() As String
 
         Dim ds As DataSet = New DataSet()
-        ds = Buscar(Nothing, Nothing)
+        Dim intResultado As Integer = Insert("Suero de manzana", 10, "img\SueroManzana.jpg", 14.5)
 
         Return "Hello World"
     End Function

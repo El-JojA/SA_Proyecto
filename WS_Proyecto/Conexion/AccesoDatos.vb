@@ -5,8 +5,8 @@ Imports System.Data.SqlTypes
 Imports Microsoft.SqlServer.Server
 
 Public Class AccesoDatos
-    Shared strConexion As String = "Server=localhost;Database=SA_Proyecto;Trusted_Connection=Yes;"
-    'Shared strConexion As String = "Server=25.149.166.182;Database=SA_Proyecto;User Id=admin;Password=123;"
+    'Shared strConexion As String = "Server=localhost;Database=SA_Proyecto;Trusted_Connection=Yes;"
+    Shared strConexion As String = "Server=25.149.166.182;Database=SA_Proyecto;User Id=admin;Password=123;"
 
 
     Public Shared Function ExecuteDataSet(ByVal strStoredProcedure As String, _

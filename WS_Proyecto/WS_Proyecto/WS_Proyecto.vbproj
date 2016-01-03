@@ -89,6 +89,7 @@
   <ItemGroup>
     <Content Include="Servicios\PruebaWS.asmx" />
     <Content Include="Servicios\WS_Factura.asmx" />
+    <Content Include="Servicios\WS_Login.asmx" />
     <Content Include="Web.config" />
     <Content Include="Servicios\WS_Producto.asmx" />
   </ItemGroup>
@@ -118,6 +119,10 @@
     </Compile>
     <Compile Include="Servicios\WS_Factura.asmx.vb">
       <DependentUpon>WS_Factura.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Servicios\WS_Login.asmx.vb">
+      <DependentUpon>WS_Login.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Servicios\WS_Producto.asmx.vb">

@@ -39,9 +39,12 @@ Public Class WS_Producto
         'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
         'regresa 0 si no pudo ingresar los datos
         intResultado = Conexion.AccesoDatos.ExecuteNonQuery("Producto_Update",
-                                                            "@id", intId, "@nombre", strNombre,
-                                                            "@disponible", intDisponible, "@img", strImg,
-                                                            "@precio", dblPrecio, "@estado", bytEstado)
+                                                            "@id", intId,
+                                                            "@nombre", IIf(strNombre = Nothing, DBNull.Value, strNombre),
+                                                            "@disponible", IIf(intDisponible = Nothing, DBNull.Value, intDisponible),
+                                                            "@img", IIf(strImg = Nothing, DBNull.Value, strImg),
+                                                            "@precio", IIf(dblPrecio = Nothing, DBNull.Value, dblPrecio),
+                                                            "@estado", IIf(bytEstado = Nothing, DBNull.Value, bytEstado))
         Return intResultado
     End Function
 

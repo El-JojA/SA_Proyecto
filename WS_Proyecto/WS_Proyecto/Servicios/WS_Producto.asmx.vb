@@ -11,10 +11,6 @@ Public Class WS_Producto
     Inherits System.Web.Services.WebService
 
     <WebMethod()> _
-    Public Function HelloWorld() As String
-       Return "Hello World"
-    End Function
-
     Public Function Insert(ByVal strNombre As String, ByVal intDisponible As Integer,
                            ByVal strImg As String, ByVal dblPrecio As Double) As Integer
         'llmar a stored procedure para que haga el insert

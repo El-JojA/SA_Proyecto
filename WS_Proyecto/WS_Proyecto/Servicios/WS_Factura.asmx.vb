@@ -25,4 +25,16 @@ Public Class WS_Factura
         Return 0
     End Function
 
+    <WebMethod()> _
+    Public Function delete(ByVal intIdFactura As Integer) As Integer
+        Dim rs As Integer
+
+        rs = Conexion.AccesoDatos.ExecuteNonQuery("Factura_Delete", "@id", intIdFactura)
+        If rs = 0 Then
+            Return 1
+        End If
+
+        Return 0
+    End Function
+
 End Class

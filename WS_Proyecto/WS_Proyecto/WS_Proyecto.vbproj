@@ -91,6 +91,7 @@
     <Content Include="Servicios\WS_Cliente.asmx" />
     <Content Include="Servicios\WS_Factura.asmx" />
     <Content Include="Servicios\WS_Login.asmx" />
+    <Content Include="Servicios\WS_Tienda.asmx" />
     <Content Include="Web.config" />
     <Content Include="Servicios\WS_Producto.asmx" />
   </ItemGroup>
@@ -121,6 +122,7 @@
       <DependentUpon>PruebaWS.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Servicios\Tienda.vb" />
     <Compile Include="Servicios\WS_Cliente.asmx.vb">
       <DependentUpon>WS_Cliente.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -135,6 +137,10 @@
     </Compile>
     <Compile Include="Servicios\WS_Producto.asmx.vb">
       <DependentUpon>WS_Producto.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Servicios\WS_Tienda.asmx.vb">
+      <DependentUpon>WS_Tienda.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>

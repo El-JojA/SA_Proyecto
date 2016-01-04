@@ -23,7 +23,7 @@ Public Class WS_Cliente
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Cliente_Insert",
                                             "@nombre", strNombre, "@apellido", strApellido,
                                             "@telefono", strTelefono, "@nit", strNit)
-        If (Conexion.AccesoDatos.DatasetVacio(dsResultado)) Then
+        If Not (Conexion.AccesoDatos.DatasetVacio(dsResultado)) Then
             intResultado = CInt(dsResultado.Tables(0).Rows(0).Item("id"))
         End If
 

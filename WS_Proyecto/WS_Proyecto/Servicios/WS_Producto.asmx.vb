@@ -49,8 +49,7 @@ Public Class WS_Producto
 
     <WebMethod()> _
     Public Function Update(ByVal intId As Integer, ByVal strNombre As String,
-                           ByVal intDisponible As Integer, ByVal strImg As String,
-                           ByVal dblPrecio As Double, ByVal bytEstado As Byte,
+                           ByVal intDisponible As Integer, ByVal dblPrecio As Double,
                            ByVal strDetalle As String, ByVal intIdEmpleado As Integer) As Integer
         Dim intResultado As Integer
         Dim strMensajeBitacora As String
@@ -61,9 +60,9 @@ Public Class WS_Producto
                                                             "@id", intId,
                                                             "@nombre", IIf(strNombre = Nothing, DBNull.Value, strNombre),
                                                             "@disponible", IIf(intDisponible = Nothing, DBNull.Value, intDisponible),
-                                                            "@img", IIf(strImg = Nothing, DBNull.Value, strImg),
+                                                            "@img", DBNull.Value,
                                                             "@precio", IIf(dblPrecio = Nothing, DBNull.Value, dblPrecio),
-                                                            "@estado", IIf(bytEstado = Nothing, DBNull.Value, bytEstado),
+                                                            "@estado", DBNull.Value,
                                                             "@detalle", IIf(strDetalle = Nothing, DBNull.Value, strDetalle))
 
         ''BITACORA

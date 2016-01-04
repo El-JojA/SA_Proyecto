@@ -11,9 +11,9 @@ Public Class WS_Producto
     Inherits System.Web.Services.WebService
 
     <WebMethod()> _
-    Public Function HelloWorld() As String
+    Public Function HelloWorld() As List(Of Producto)
 
-        Dim ds As String
+        Dim ds As List(Of Producto)
         ds = Buscar(Nothing, Nothing)
 
         Return ds
@@ -65,16 +65,27 @@ Public Class WS_Producto
     End Function
 
     <WebMethod()> _
-    Public Function Buscar(ByVal intId As Integer, ByVal strNombre As String) As String
+    Public Function Buscar(ByVal intId As Integer, ByVal strNombre As String) As List(Of Producto)
         Dim dsResultado As DataSet = New DataSet("Lista_Productos")
+        Dim listaProductos As List(Of Producto) = New List(Of Producto)
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Producto_Buscar",
                                                           "@id", IIf(intId = Nothing, DBNull.Value, intId),
                                                           "@nombre", IIf(strNombre = Nothing, DBNull.Value, strNombre))
-        dsResultado.DataSetName = "Lista_Productos"
+
         If Not Conexion.AccesoDatos.DatasetVacio(dsResultado) Then
-            dsResultado.Tables(0).TableName = "Producto"
+            Dim dtResultado As DataTable = dsResultado.Tables(0)
+            For i As Integer = 0 To dtResultado.Rows.Count - 1
+                Dim pro As Producto = New Producto
+                pro.bytEstado = dtResultado.Rows(i).Item("estado")
+                pro.dblPrecio = dtResultado.Rows(i).Item("precio_producto")
+                pro.intDisponible = dtResultado.Rows(i).Item("disponible_producto")
+                pro.intId = dtResultado.Rows(i).Item("id_producto")
+                pro.strDetalle = dtResultado.Rows(i).Item("detalle_producto")
+                pro.strNombre = IIf(dtResultado.Rows(i).Item("nombre_producto") Is DBNull.Value, "(Sin nombre)", dtResultado.Rows(i).Item("nombre_producto"))
+                listaProductos.Add(pro)
+            Next
         End If
-        Return "<BuscarProducto>" & dsResultado.GetXml & "</BuscarProducto>"
+        Return listaProductos
     End Function
 
 End Class

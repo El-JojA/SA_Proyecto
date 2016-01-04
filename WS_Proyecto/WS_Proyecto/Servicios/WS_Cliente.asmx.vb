@@ -11,8 +11,8 @@ Public Class WS_Cliente
     Inherits System.Web.Services.WebService
 
     <WebMethod()> _
-    Public Function Insert(ByVal strNombre As String, ByVal strApellido As Integer,
-                           ByVal strTelefono As String, ByVal strNit As Double,
+    Public Function Insert(ByVal strNombre As String, ByVal strApellido As String,
+                           ByVal strTelefono As String, ByVal strNit As String,
                            ByVal intIdEmpleado As Integer) As Integer
         Dim dsResultado As DataSet = New DataSet
         Dim intResultado As Integer = -1
@@ -39,7 +39,7 @@ Public Class WS_Cliente
 
     <WebMethod()> _
     Public Function Update(ByVal intId As Integer, ByVal strNombre As String,
-                           ByVal strApellido As Integer, ByVal strTelefono As Double,
+                           ByVal strApellido As String, ByVal strTelefono As String,
                            ByVal intIdEmpleado As Integer) As Integer
         Dim intResultado As Integer
         Dim strMensajeBitacora As String

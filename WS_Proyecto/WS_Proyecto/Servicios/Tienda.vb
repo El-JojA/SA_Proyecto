@@ -4,5 +4,5 @@
     Public strTelefono As String
     Public strDireccion As String
     Public bytEstado As Byte
-    Public bytEsNuestro As Byte
+    Public intEsNuestra As Integer
 End Class

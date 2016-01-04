@@ -53,7 +53,7 @@ Public Class WS_Tienda
         If Not Conexion.AccesoDatos.DatasetVacio(dsResultado) Then
             For i As Integer = 0 To dsResultado.Tables(0).Rows.Count - 1
                 Dim tie As Tienda = New Tienda
-                tie.bytEsNuestro = dsResultado.Tables(0).Rows(i).Item("esNuestra")
+                tie.intEsNuestra = dsResultado.Tables(0).Rows(i).Item("esNuestra")
                 tie.bytEstado = dsResultado.Tables(0).Rows(i).Item("estado")
                 tie.intId = dsResultado.Tables(0).Rows(i).Item("id_tienda")
                 tie.strDireccion = IIf(dsResultado.Tables(0).Rows(i).Item("direccion_tienda") Is DBNull.Value, "(Sin nombre)", dsResultado.Tables(0).Rows(i).Item("direccion_tienda"))

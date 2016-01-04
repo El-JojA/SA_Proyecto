@@ -11,16 +11,11 @@ Imports System.Data
 Public Class WS_Login
     Inherits System.Web.Services.WebService
 
-    <WebMethod()> _
-    Public Function HelloWorld() As String
-       Return "Hello World"
-    End Function
-
     '0 = No loguea
     '1 = Loguea como empleado de farmacias
     '2 = Loguea como empleado de callcenter
     <WebMethod()> _
-    Public Function Login(ByVal strUsuario As String, ByVal strPass As String) As Login
+    Public Function Logueo(ByVal strUsuario As String, ByVal strPass As String) As Login
         Dim dsResultado As DataSet = New DataSet
         Dim log As Login = New Login
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Login_Emp",

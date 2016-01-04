@@ -17,20 +17,21 @@ Public Class WS_Cliente
         Dim dsResultado As DataSet = New DataSet
         Dim intResultado As Integer = 0
         Dim intResultadoBitacora As Integer
-        Dim strMensajeBitacora
+        Dim strMensajeBitacora = "(Sin mensaje)"
         'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
         'regresa 0 si no pudo ingresar los datos
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Cliente_Insert",
                                             "@nombre", strNombre, "@apellido", strApellido,
                                             "@telefono", strTelefono, "@nit", strNit)
+
         If Not (Conexion.AccesoDatos.DatasetVacio(dsResultado)) Then
             intResultado = CInt(dsResultado.Tables(0).Rows(0).Item("id"))
         End If
 
         ''BITACORA
-        strMensajeBitacora = "Se ingresó un cliente de nombre: " &
+        strMensajeBitacora = "Se ingresó un CLIENTE de nombre: " &
             strNombre & " " & strApellido & ". El resutado fue " &
-            IIf(intResultado = 0, "fallido", "eeeeexitoso.")
+            IIf(intResultado = 0, "FALLIDO", "eeeeexitoso.")
 
         intResultadoBitacora = Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",
                                                                     "@descripcion", strMensajeBitacora,

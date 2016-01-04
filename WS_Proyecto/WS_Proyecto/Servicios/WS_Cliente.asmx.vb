@@ -56,10 +56,9 @@ Public Class WS_Cliente
                                                             "@telefono", IIf(strTelefono = Nothing, DBNull.Value, strTelefono))
 
         ''BITACORA
-        strMensajeBitacora = "Se actualizó el cliente de id: " & intId &
-            ". El resutado fue " & IIf(intResultado = 0, "fallido", "eeeeexitoso.")
-        '" y datos(" & strNombre & ", " & intDisponible & ", " & strImg & " , " & dblPrecio & " , , )=: " &
-
+        strMensajeBitacora = "Se actualizó el CLIENTE de id: " & intId &
+            ". El resutado fue " & IIf(intResultado = 0, "FALLIDO", "eeeeexitoso.")
+        
         intResultadoBitacora = Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",
                                                                     "@descripcion", strMensajeBitacora,
                                                                     "@servicio", "WS_Cliente.Update()",

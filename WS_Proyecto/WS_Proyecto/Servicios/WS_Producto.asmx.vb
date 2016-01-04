@@ -14,7 +14,7 @@ Public Class WS_Producto
     Public Function HelloWorld() As List(Of Producto)
 
         Dim ds As List(Of Producto)
-        ds = Buscar(Nothing, Nothing)
+        ds = Buscar(Nothing, Nothing, 1)
 
         Return ds
     End Function
@@ -22,7 +22,7 @@ Public Class WS_Producto
     <WebMethod()> _
     Public Function Insert(ByVal strNombre As String, ByVal intDisponible As Integer,
                            ByVal strImg As String, ByVal dblPrecio As Double,
-                           ByVal strDetalle As String) As Integer
+                           ByVal strDetalle As String, ByVal intIdEmpleado As Integer) As Integer
         Dim dsResultado As DataSet = New DataSet
         Dim intResultado As Integer = -1
         'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
@@ -39,7 +39,7 @@ Public Class WS_Producto
     Public Function Update(ByVal intId As Integer, ByVal strNombre As String,
                            ByVal intDisponible As Integer, ByVal strImg As String,
                            ByVal dblPrecio As Double, ByVal bytEstado As Byte,
-                           ByVal strDetalle As String) As Integer
+                           ByVal strDetalle As String, ByVal intIdEmpleado As Integer) As Integer
         Dim intResultado As Integer
         'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
         'regresa 0 si no pudo ingresar los datos
@@ -55,7 +55,7 @@ Public Class WS_Producto
     End Function
 
     <WebMethod()> _
-    Public Function Delete(ByVal intId As Integer) As Integer
+    Public Function Delete(ByVal intId As Integer, ByVal intIdEmpleado As Integer) As Integer
         Dim intResultado As Integer
         'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
         'regresa 0 si no pudo ingresar los datos
@@ -65,7 +65,7 @@ Public Class WS_Producto
     End Function
 
     <WebMethod()> _
-    Public Function Buscar(ByVal intId As Integer, ByVal strNombre As String) As List(Of Producto)
+    Public Function Buscar(ByVal intId As Integer, ByVal strNombre As String, ByVal intIdEmpleado As Integer) As List(Of Producto)
         Dim dsResultado As DataSet = New DataSet("Lista_Productos")
         Dim listaProductos As List(Of Producto) = New List(Of Producto)
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Producto_Buscar",

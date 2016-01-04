@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Servicios\PruebaWS.asmx" />
+    <Content Include="Servicios\WS_Cliente.asmx" />
     <Content Include="Servicios\WS_Factura.asmx" />
     <Content Include="Servicios\WS_Login.asmx" />
     <Content Include="Web.config" />
@@ -113,10 +114,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Servicios\Cliente.vb" />
     <Compile Include="Servicios\Login.vb" />
     <Compile Include="Servicios\Producto.vb" />
     <Compile Include="Servicios\PruebaWS.asmx.vb">
       <DependentUpon>PruebaWS.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Servicios\WS_Cliente.asmx.vb">
+      <DependentUpon>WS_Cliente.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Servicios\WS_Factura.asmx.vb">

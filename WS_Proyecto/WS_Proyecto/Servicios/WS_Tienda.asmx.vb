@@ -12,7 +12,7 @@ Public Class WS_Tienda
 
     <WebMethod()> _
     Public Function Insert(ByVal strNombre As String, ByVal strTelefono As String,
-                           ByVal strDireccion As String, ByVal bytEsnuestra As Byte,
+                           ByVal strDireccion As String, ByVal bytEsnuestra As Integer,
                            ByVal intIdEmpleado As Integer) As Integer
 
         Dim dsResultado As DataSet = New DataSet

@@ -13,28 +13,33 @@ Public Class WS_Producto
     <WebMethod()> _
     Public Function HelloWorld() As String
 
-        Dim ds As DataSet = New DataSet()
+        Dim ds As String
         ds = Buscar(Nothing, Nothing)
 
-        Return "Hello World"
+        Return ds
     End Function
 
+    <WebMethod()> _
     Public Function Insert(ByVal strNombre As String, ByVal intDisponible As Integer,
-                           ByVal strImg As String, ByVal dblPrecio As Double) As Integer
+                           ByVal strImg As String, ByVal dblPrecio As Double,
+                           ByVal strDetalle As String) As Integer
         Dim dsResultado As DataSet = New DataSet
         Dim intResultado As Integer = -1
         'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
         'regresa 0 si no pudo ingresar los datos
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Producto_Insert",
                                             "@nombre", strNombre, "@disponible", intDisponible,
-                                            "@img", strImg, "@precio", dblPrecio)
+                                            "@img", strImg, "@precio", dblPrecio,
+                                            "@detalle", strDetalle)
         intResultado = CInt(dsResultado.Tables(0).Rows(0).Item("id"))
         Return intResultado
     End Function
 
+    <WebMethod()> _
     Public Function Update(ByVal intId As Integer, ByVal strNombre As String,
                            ByVal intDisponible As Integer, ByVal strImg As String,
-                           ByVal dblPrecio As Double, ByVal bytEstado As Byte) As Integer
+                           ByVal dblPrecio As Double, ByVal bytEstado As Byte,
+                           ByVal strDetalle As String) As Integer
         Dim intResultado As Integer
         'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
         'regresa 0 si no pudo ingresar los datos
@@ -44,10 +49,12 @@ Public Class WS_Producto
                                                             "@disponible", IIf(intDisponible = Nothing, DBNull.Value, intDisponible),
                                                             "@img", IIf(strImg = Nothing, DBNull.Value, strImg),
                                                             "@precio", IIf(dblPrecio = Nothing, DBNull.Value, dblPrecio),
-                                                            "@estado", IIf(bytEstado = Nothing, DBNull.Value, bytEstado))
+                                                            "@estado", IIf(bytEstado = Nothing, DBNull.Value, bytEstado),
+                                                            "@detalle", IIf(strDetalle = Nothing, DBNull.Value, strDetalle))
         Return intResultado
     End Function
 
+    <WebMethod()> _
     Public Function Delete(ByVal intId As Integer) As Integer
         Dim intResultado As Integer
         'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
@@ -57,12 +64,17 @@ Public Class WS_Producto
         Return intResultado
     End Function
 
-    Public Function Buscar(ByVal intId As Integer, ByVal strNombre As String) As DataSet
-        Dim dsResultado As DataSet = New DataSet
+    <WebMethod()> _
+    Public Function Buscar(ByVal intId As Integer, ByVal strNombre As String) As String
+        Dim dsResultado As DataSet = New DataSet("Lista_Productos")
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Producto_Buscar",
                                                           "@id", IIf(intId = Nothing, DBNull.Value, intId),
                                                           "@nombre", IIf(strNombre = Nothing, DBNull.Value, strNombre))
-        Return dsResultado
+        dsResultado.DataSetName = "Lista_Productos"
+        If Not Conexion.AccesoDatos.DatasetVacio(dsResultado) Then
+            dsResultado.Tables(0).TableName = "Producto"
+        End If
+        Return "<BuscarProducto>" & dsResultado.GetXml & "</BuscarProducto>"
     End Function
 
 End Class

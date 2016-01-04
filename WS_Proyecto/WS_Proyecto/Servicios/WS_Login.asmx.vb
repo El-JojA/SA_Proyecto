@@ -18,24 +18,36 @@ Public Class WS_Login
     Public Function Logueo(ByVal strUsuario As String, ByVal strPass As String) As Login
         Dim dsResultado As DataSet = New DataSet
         Dim log As Login = New Login
+        Dim intResultadoBitacora As Integer
+        Dim strMensajeBitacora
+
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Login_Emp",
                                                           "@usuario", strUsuario,
                                                           "@pass", strPass)
         If Conexion.AccesoDatos.DatasetVacio(dsResultado) Then
             log.intId = "0"
-            log.intResultado = "0"
+            log.intResultado = 0
             log.intTipoEmpleado = "0"
             log.strApellido = ""
             log.strNombre = ""
-            Return log
         Else
             log.intId = dsResultado.Tables(0).Rows(0).Item("id_empleado")
             log.intResultado = dsResultado.Tables(0).Rows(0).Item("tipo_empleado")
             log.intTipoEmpleado = dsResultado.Tables(0).Rows(0).Item("tipo_empleado")
             log.strApellido = dsResultado.Tables(0).Rows(0).Item("apellido_empleado").ToString
             log.strNombre = IIf(dsResultado.Tables(0).Rows(0).Item("nombre_empleado") Is DBNull.Value, "(Sin nombre)", dsResultado.Tables(0).Rows(0).Item("nombre_empleado").ToString)
-            Return log
         End If
+
+        ''BITACORA
+        strMensajeBitacora = "Se realizó un intento de login sobre el usuario" & strUsuario &
+            ". El resutado fue " & IIf(log.intResultado = 0, "fallido", "eeeeexitoso.")
+        
+        intResultadoBitacora = Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",
+                                                                    "@descripcion", strMensajeBitacora,
+                                                                    "@servicio", "WS_Login.Logueo()",
+                                                                    "@id_empleado", DBNull.Value)
+
+        Return log
     End Function
 
 End Class

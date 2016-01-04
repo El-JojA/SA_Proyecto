@@ -39,7 +39,7 @@ Public Class WS_Login
         End If
 
         ''BITACORA
-        strMensajeBitacora = "Se realizó un intento de login sobre el usuario" & strUsuario &
+        strMensajeBitacora = "Se realizó un intento de login sobre el usuario " & strUsuario &
             ". El resutado fue " & IIf(log.intResultado = 0, "fallido", "eeeeexitoso.")
         
         intResultadoBitacora = Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",

@@ -70,4 +70,14 @@ Public Class AccesoDatos
         Return False
     End Function
 
+    Public Shared Function InsertarBitacora(ByVal strMensajeBitacora As String,
+                                            ByVal strServicio As String,
+                                            ByVal intIdEmpleado As Integer) As Integer
+        ''BITACORA
+        Return Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",
+                                                    "@descripcion", strMensajeBitacora,
+                                                    "@servicio", strServicio,
+                                                    "@id_empleado", intIdEmpleado)
+    End Function
+
 End Class

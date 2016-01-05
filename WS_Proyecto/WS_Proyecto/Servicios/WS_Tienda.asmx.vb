@@ -35,10 +35,7 @@ Public Class WS_Tienda
         End Try
 
         ''BITACORA
-        intResultadoBitacora = Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",
-                                                                    "@descripcion", strMensajeBitacora,
-                                                                    "@servicio", "WS_Tienda.Insert()",
-                                                                    "@id_empleado", intIdEmpleado)
+        Conexion.AccesoDatos.InsertarBitacora(strMensajeBitacora, "WS_Tienda.Insert()", intIdEmpleado)
 
         Return intResultado
     End Function
@@ -49,31 +46,33 @@ Public Class WS_Tienda
         Dim listaTiendas As List(Of Tienda) = New List(Of Tienda)
         Dim strMensajeBitacora As String
         Dim intResultadoBitacora As Integer
-        dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Tienda_Buscar",
+
+        Try
+            dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Tienda_Buscar",
                                                           "@id", DBNull.Value)
 
-        If Not Conexion.AccesoDatos.DatasetVacio(dsResultado) Then
-            For i As Integer = 0 To dsResultado.Tables(0).Rows.Count - 1
-                Dim tie As Tienda = New Tienda
-                tie.intEsNuestra = dsResultado.Tables(0).Rows(i).Item("esNuestra")
-                tie.bytEstado = dsResultado.Tables(0).Rows(i).Item("estado")
-                tie.intId = dsResultado.Tables(0).Rows(i).Item("id_tienda")
-                tie.strDireccion = IIf(dsResultado.Tables(0).Rows(i).Item("direccion_tienda") Is DBNull.Value, "(Sin nombre)", dsResultado.Tables(0).Rows(i).Item("direccion_tienda"))
-                tie.strNombre = dsResultado.Tables(0).Rows(i).Item("nombre_tienda")
-                tie.strTelefono = IIf(dsResultado.Tables(0).Rows(i).Item("telefono_tienda") Is DBNull.Value, "(Sin telefono)", dsResultado.Tables(0).Rows(i).Item("telefono_tienda"))
-                listaTiendas.Add(tie)
-            Next
-        End If
+            If Not Conexion.AccesoDatos.DatasetVacio(dsResultado) Then
+                For i As Integer = 0 To dsResultado.Tables(0).Rows.Count - 1
+                    Dim tie As Tienda = New Tienda
+                    tie.intEsNuestra = dsResultado.Tables(0).Rows(i).Item("esNuestra")
+                    tie.bytEstado = dsResultado.Tables(0).Rows(i).Item("estado")
+                    tie.intId = dsResultado.Tables(0).Rows(i).Item("id_tienda")
+                    tie.strDireccion = IIf(dsResultado.Tables(0).Rows(i).Item("direccion_tienda") Is DBNull.Value, "(Sin nombre)", dsResultado.Tables(0).Rows(i).Item("direccion_tienda"))
+                    tie.strNombre = dsResultado.Tables(0).Rows(i).Item("nombre_tienda")
+                    tie.strTelefono = IIf(dsResultado.Tables(0).Rows(i).Item("telefono_tienda") Is DBNull.Value, "(Sin telefono)", dsResultado.Tables(0).Rows(i).Item("telefono_tienda"))
+                    listaTiendas.Add(tie)
+                Next
+            End If
 
-        ''BITACORA
-        strMensajeBitacora = "Se realizó una busqueda de TIENDAS" &
-            ". El resutado fue " & IIf(Conexion.AccesoDatos.DatasetVacio(dsResultado), "fallido/sin datos.", "eeeeexitoso.")
+            ''BITACORA
+            strMensajeBitacora = "Se realizó una busqueda de TIENDAS" &
+                ". El resutado fue " & IIf(Conexion.AccesoDatos.DatasetVacio(dsResultado), "fallido/sin datos.", "eeeeexitoso.")
 
-        intResultadoBitacora = Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",
-                                                                    "@descripcion", strMensajeBitacora,
-                                                                    "@servicio", "WS_Tienda.Buscar()",
-                                                                    "@id_empleado", intIdEmpleado)
-
+        Catch ex As Exception
+            strMensajeBitacora = ex.Message
+        End Try
+        
+        Conexion.AccesoDatos.InsertarBitacora(strMensajeBitacora, "WS_Tienda.Buscar()", intIdEmpleado)
         Return listaTiendas
     End Function
 

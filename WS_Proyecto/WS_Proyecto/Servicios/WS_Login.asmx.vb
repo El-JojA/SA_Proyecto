@@ -22,8 +22,8 @@ Public Class WS_Login
         Dim strMensajeBitacora
 
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Login_Emp",
-                                                          "@usuario", strUsuario,
-                                                          "@pass", strPass)
+                                                        "@usuario", strUsuario,
+                                                        "@pass", strPass)
         If Conexion.AccesoDatos.DatasetVacio(dsResultado) Then
             log.intId = "0"
             log.intResultado = 0
@@ -41,13 +41,16 @@ Public Class WS_Login
         ''BITACORA
         strMensajeBitacora = "Se realizó un intento de login sobre el usuario """ & strUsuario &
             """. El resutado fue " & IIf(log.intResultado = 0, "fallido", "eeeeexitoso.")
-        
+
         intResultadoBitacora = Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",
                                                                     "@descripcion", strMensajeBitacora,
                                                                     "@servicio", "WS_Login.Logueo()",
                                                                     "@id_empleado", DBNull.Value)
 
+        
+        
         Return log
+
     End Function
 
 End Class

@@ -27,23 +27,25 @@ Public Class WS_Producto
         Dim intResultado As Integer = -1
         Dim intResultadoBitacora As Integer
         Dim strMensajeBitacora
-        'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
-        'regresa 0 si no pudo ingresar los datos
-        dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Producto_Insert",
-                                            "@nombre", strNombre, "@disponible", intDisponible,
-                                            "@img", strImg, "@precio", dblPrecio,
-                                            "@detalle", strDetalle)
-        intResultado = CInt(dsResultado.Tables(0).Rows(0).Item("id"))
 
-        ''BITACORA
-        strMensajeBitacora = "Se ingresó un producto de nombre: " &
-            strNombre & " y descripción: " & strDetalle & ". El resutado fue " &
-            IIf(intResultado = 0, "fallido", "eeeeexitoso.")
+        Try
+            'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
+            'regresa 0 si no pudo ingresar los datos
+            dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Producto_Insert",
+                                                "@nombre", strNombre, "@disponible", intDisponible,
+                                                "@img", strImg, "@precio", dblPrecio,
+                                                "@detalle", strDetalle)
+            intResultado = CInt(dsResultado.Tables(0).Rows(0).Item("id"))
 
-        intResultadoBitacora = Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",
-                                                                    "@descripcion", strMensajeBitacora,
-                                                                    "@servicio", "WS_Producto.Insert()",
-                                                                    "@id_empleado", intIdEmpleado)
+            ''BITACORA
+            strMensajeBitacora = "Se ingresó un producto de nombre: " &
+                strNombre & " y descripción: " & strDetalle & ". El resutado fue " &
+                IIf(intResultado = 0, "fallido", "eeeeexitoso.")
+        Catch ex As Exception
+            strMensajeBitacora = ex.Message
+        End Try
+
+        intResultadoBitacora = Conexion.AccesoDatos.InsertarBitacora(strMensajeBitacora, "WS_Producto.Insert()", intIdEmpleado)
         Return intResultado
     End Function
 
@@ -54,27 +56,28 @@ Public Class WS_Producto
         Dim intResultado As Integer
         Dim strMensajeBitacora As String
         Dim intResultadoBitacora As Integer
-        'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
-        'regresa 0 si no pudo ingresar los datos
-        intResultado = Conexion.AccesoDatos.ExecuteNonQuery("Producto_Update",
-                                                            "@id", intId,
-                                                            "@nombre", IIf(strNombre = Nothing, DBNull.Value, strNombre),
-                                                            "@disponible", IIf(intDisponible = Nothing, DBNull.Value, intDisponible),
-                                                            "@img", DBNull.Value,
-                                                            "@precio", IIf(dblPrecio = Nothing, DBNull.Value, dblPrecio),
-                                                            "@estado", DBNull.Value,
-                                                            "@detalle", IIf(strDetalle = Nothing, DBNull.Value, strDetalle))
 
-        ''BITACORA
-        strMensajeBitacora = "Se ingresó actualizó el producto de id: " & intId &
-            ". El resutado fue " & IIf(intResultado = 0, "fallido", "eeeeexitoso.")
-        '" y datos(" & strNombre & ", " & intDisponible & ", " & strImg & " , " & dblPrecio & " , , )=: " &
+        Try
+            'corre el stored procedure y regresa < 0 si ingresó los datos correctamente.
+            'regresa 0 si no pudo ingresar los datos
+            intResultado = Conexion.AccesoDatos.ExecuteNonQuery("Producto_Update",
+                                                                "@id", intId,
+                                                                "@nombre", IIf(strNombre = Nothing, DBNull.Value, strNombre),
+                                                                "@disponible", IIf(intDisponible = Nothing, DBNull.Value, intDisponible),
+                                                                "@img", DBNull.Value,
+                                                                "@precio", IIf(dblPrecio = Nothing, DBNull.Value, dblPrecio),
+                                                                "@estado", DBNull.Value,
+                                                                "@detalle", IIf(strDetalle = Nothing, DBNull.Value, strDetalle))
 
-        intResultadoBitacora = Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",
-                                                                    "@descripcion", strMensajeBitacora,
-                                                                    "@servicio", "WS_Producto.Update()",
-                                                                    "@id_empleado", intIdEmpleado)
+            ''BITACORA
+            strMensajeBitacora = "Se ingresó actualizó el producto de id: " & intId &
+                ". El resutado fue " & IIf(intResultado = 0, "fallido", "eeeeexitoso.")
 
+        Catch ex As Exception
+            strMensajeBitacora = ex.Message
+        End Try
+
+        intResultadoBitacora = Conexion.AccesoDatos.InsertarBitacora(strMensajeBitacora, "WS_Producto.Update()", intIdEmpleado)
         Return intResultado
     End Function
 

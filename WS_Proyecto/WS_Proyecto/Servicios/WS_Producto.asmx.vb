@@ -110,7 +110,7 @@ Public Class WS_Producto
         Dim intResultadoBitacora As Integer
         dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Producto_Buscar",
                                                           "@id", IIf(intId = Nothing, DBNull.Value, intId),
-                                                          "@nombre", IIf(strNombre = Nothing, DBNull.Value, strNombre))
+                                                          "@nombre", IIf(strNombre = Nothing Or strNombre = "", DBNull.Value, strNombre))
 
         If Not Conexion.AccesoDatos.DatasetVacio(dsResultado) Then
             Dim dtResultado As DataTable = dsResultado.Tables(0)

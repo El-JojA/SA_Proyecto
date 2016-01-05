@@ -12,7 +12,10 @@ Public Class WS_Factura
 
     <WebMethod()> _
     Public Function Insert(ByVal intIdCliente As Integer,
-                           ByVal intIdFarmacia As Integer, ByVal intIdEmpleado As Integer) As Integer
+                           ByVal intIdFarmacia As Integer,
+                           ByVal intIdEmpleado As Integer,
+                           ByVal dblTotal As Double,
+                           ByVal intTipoPago As Integer) As Integer
 
         Dim dsResultado As DataSet = New DataSet
         Dim intResultado As Integer = 0
@@ -23,7 +26,9 @@ Public Class WS_Factura
             dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Factura_Insert",
                                                           "@id_cliente", intIdCliente,
                                                           "@id_farmacia", intIdFarmacia,
-                                                          "@id_empleado", intIdEmpleado)
+                                                          "@id_empleado", intIdEmpleado,
+                                                          "@total", dblTotal,
+                                                          "@tipo", intTipoPago)
 
             If Not (Conexion.AccesoDatos.DatasetVacio(dsResultado)) Then
                 intResultado = CInt(dsResultado.Tables(0).Rows(0).Item("id"))
@@ -196,7 +201,7 @@ Public Class WS_Factura
 
         'Inventario insuficiente
         If intCantidadProducto < intCantidad Then
-            Return 0
+            Return -1
         End If
 
         intResultado = Conexion.AccesoDatos.ExecuteNonQuery("Detalle_Factura_Insert",

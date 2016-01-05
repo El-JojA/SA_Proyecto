@@ -20,19 +20,21 @@ Public Class WS_Tienda
         Dim intResultadoBitacora As Integer
         Dim strMensajeBitacora = "(Sin mensaje)"
 
-        dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Tienda_Insert",
+        Try
+            dsResultado = Conexion.AccesoDatos.ExecuteDataSet("Tienda_Insert",
                                             "@nombre", strNombre, "@telefono", strTelefono,
                                             "@direccion", strDireccion, "@esnuestra", bytEsnuestra)
 
-        If Not (Conexion.AccesoDatos.DatasetVacio(dsResultado)) Then
-            intResultado = CInt(dsResultado.Tables(0).Rows(0).Item("id"))
-        End If
+            If Not (Conexion.AccesoDatos.DatasetVacio(dsResultado)) Then
+                intResultado = CInt(dsResultado.Tables(0).Rows(0).Item("id"))
+            End If
+            strMensajeBitacora = "Se ingresó una TIENDA de nombre: " &
+            strNombre & ". El resutado fue " & IIf(intResultado = 0, "FALLIDO", "eeeeexitoso.")
+        Catch ex As Exception
+            strMensajeBitacora = ex.Message
+        End Try
 
         ''BITACORA
-        strMensajeBitacora = "Se ingresó una TIENDA de nombre: " &
-            strNombre & ". El resutado fue " &
-            IIf(intResultado = 0, "FALLIDO", "eeeeexitoso.")
-
         intResultadoBitacora = Conexion.AccesoDatos.ExecuteNonQuery("Bitacora_Insert",
                                                                     "@descripcion", strMensajeBitacora,
                                                                     "@servicio", "WS_Tienda.Insert()",

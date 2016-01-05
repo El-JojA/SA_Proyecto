@@ -15,7 +15,8 @@ Public Class WS_Factura
                            ByVal intIdFarmacia As Integer,
                            ByVal intIdEmpleado As Integer,
                            ByVal dblTotal As Double,
-                           ByVal intTipoPago As Integer) As Integer
+                           ByVal intTipoPago As Integer,
+                           ByVal strDireccion As String) As Integer
 
         Dim dsResultado As DataSet = New DataSet
         Dim intResultado As Integer = 0
@@ -28,7 +29,8 @@ Public Class WS_Factura
                                                           "@id_farmacia", intIdFarmacia,
                                                           "@id_empleado", intIdEmpleado,
                                                           "@total", dblTotal,
-                                                          "@tipo", intTipoPago)
+                                                          "@tipo", intTipoPago,
+                                                          "@direccion", strDireccion)
 
             If Not (Conexion.AccesoDatos.DatasetVacio(dsResultado)) Then
                 intResultado = CInt(dsResultado.Tables(0).Rows(0).Item("id"))

@@ -199,7 +199,7 @@ Public Class WS_Factura
         Else 'Falló consulta de precio sobre producto
             Return 0
         End If
-        dblCantidadTotal = dblCantidadTotal * intCantidad
+        dblCantidadTotal = dblPrecio * intCantidad
 
         'Inventario insuficiente
         If intCantidadProducto < intCantidad Then
